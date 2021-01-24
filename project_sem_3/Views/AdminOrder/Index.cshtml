@@ -1,0 +1,311 @@
+﻿@model IEnumerable<project_sem_3.Models.Order>
+
+@{
+    ViewBag.Title = "Index Order";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Order List</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="./">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="./Order">Order</a></li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</div>
+
+<!-- Row -->
+<div class="row">
+    <!-- DataTable with Hover -->
+    <div class="col-lg-12">
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>   
+            </div>
+            <div class="table-responsive p-3 ">
+                <div class="pb-3 form-inline">
+                    <label>
+                        Find by time:
+                    </label>
+                    <div class="form-control ml-2" id="daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width:30%">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
+                </div>
+                
+                <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                    <div class="col-log-12">
+                        @using (Html.BeginForm("ExportOrder", "Admin", FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-primary float-right ml-3" title="Download Excel File">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </button>
+                        }
+                    </div>
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+                            @*<th>
+                                Customer Email
+                            </th>*@
+                            @*<th>
+                                Customer Address
+                            </th>*@
+                            <th>
+                                Payment
+                            </th>
+
+                            <th>
+                                Total
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CustomerPhone)
+                                </td>
+                                @*<td>
+                        @Html.DisplayFor(modelItem => item.CustomerEmail)
+                    </td>*@
+                                @*<td>
+                        @Html.DisplayFor(modelItem => item.CustomerAddress)
+                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentMethod)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                                </td>
+                                <td class="action-btn">
+                                    <a href="/Admin/OrderDetails/@(item.Id)" data-toggle="tooltip" title="Details"><i class="fas fa-eye"></i></a>
+                                    <a href="/Admin/OrderEdit/@(item.Id)" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                    @if (item.Status == project_sem_3.Models.EOrderStatus.Received || item.Status == project_sem_3.Models.EOrderStatus.Processing || item.Status == project_sem_3.Models.EOrderStatus.Shipping || item.Status == project_sem_3.Models.EOrderStatus.Delivered)
+                                    {
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#modalDelete" id="#modalDelete" class="action_status" data=@item.Id title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#modalRestore" id="#modalRestore" class="action_status" data=@item.Id title="Restore">
+                                            <i class="fas fa-undo"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Row-->
+
+
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you really want to delete?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success action_model_close" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger action_model_delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalRestore" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Restore</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger action_model_close" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-success action_model_restore">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/admin-table")
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    
+    <!-- Page level custom scripts -->
+    <script>
+        var idTemp = 0;
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#dataTable').DataTable(); // ID From dataTable
+            $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+        });
+        $('.action_status').click(function () {
+            idTemp = $(this).attr("data");
+        })
+        $('.action_model_close').click(function () {
+            idTemp = 0
+        })
+        $('.action_model_delete').click(function () {
+            if (idTemp > 0) {
+                //let origin = window.location.origin;
+                location.href = "/Admin/OrderDelete/" + idTemp
+            }
+        })
+        $('.action_model_restore').click(function () {
+            if (idTemp > 0) {
+                //let origin = window.location.origin;
+                location.href = "/Admin/OrderRestore/" + idTemp
+            }
+        })
+    </script>
+
+    <script>
+        var idTemp = 0
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#dataTable').DataTable(); // ID From dataTable
+            $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+        });
+
+        $('.action_delete').click(function () {
+            if (confirm("Are you sure ?")) {
+                let id = $(this).attr("data");
+                //let origin = window.location.origin;
+                location.href = "/Admin/ProductDelete/" + id
+            }
+        })
+
+        $('.action_status').click(function () {
+            idTemp = $(this).attr("data");
+        })
+
+        $('.action_model_close').click(function () {
+            idTemp = 0
+        })
+
+        $('.action_model_delete').click(function () {
+            if (idTemp > 0) {
+                //let origin = window.location.origin;
+                location.href = "/Admin/ProductDelete/" + idTemp
+            }
+        })
+    </script>
+
+    <!-- Date Range Picker -->
+    <script>
+        //Get url function
+        function GetURLParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1));
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        var initStart = GetURLParameter("startDate");
+        var initEnd = GetURLParameter("endDate");
+        if (initStart != null && moment(initStart, 'MM/DD/YYYY', true).isValid()) {
+            $("#startDate").val(initStart);
+            start = moment(initStart, 'MM/DD/YYYY', true);
+        }
+        if (initEnd != null && moment(initEnd, 'MM/DD/YYYY', true).isValid()) {
+            $("#endDate").val(initEnd);
+            end = moment(initEnd, 'MM/DD/YYYY', true);
+        }
+
+        function cb(start, end) {
+            $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+
+        $('#daterange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            locale: {
+                format: 'MM/DD/YYYY'
+            },
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+        $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+            /*$(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));*/
+            var startDate = picker.startDate.format('MM/DD/YYYY');
+            var endDate = picker.endDate.format('MM/DD/YYYY');
+            start = startDate;
+            end = endDate;
+            location.href = '../Admin/Order?startDate=' + startDate + '&endDate=' + endDate;
+        });
+
+        $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+
+        cb(start, end);
+
+    </script>
+
+}

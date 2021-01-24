@@ -1,0 +1,51 @@
+﻿@using project_sem_3.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_AdminAuthLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="login-form">
+            <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Login</h1>
+            </div>
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "user", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Email, new { placeholder = "Enter Email Address", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
+                        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "custom-control-input" })
+                        @Html.LabelFor(m => m.RememberMe, new { @class = "custom-control-label" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </div>}
+            <hr>
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            <hr>
+            <div class="text-center">
+                @Html.ActionLink("Create an Account!", "Register", new { }, new { @class = "font-weight-bold small" })
+            </div>
+            <div class="text-center">
+                @Html.ActionLink("Forgot your password?", "ForgotPassword", new { }, new { @class = "font-weight-bold small" })
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

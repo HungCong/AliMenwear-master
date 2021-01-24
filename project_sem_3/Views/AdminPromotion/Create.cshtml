@@ -1,0 +1,501 @@
+﻿@model PagedList.IPagedList<project_sem_3.Models.Product>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Create Promotion";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int index = 1;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Create Promotion</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="./">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="./Promotion">Promotion</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <!-- Horizontal Form -->
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            </div>
+            <div class="card-body p-3">
+                <div class="form-group">
+                    <label class="col-form-label">Subject</label>
+                    <input class="form-control" type="text" name="name" id="js-input-subject" />
+                    <span class="invalid-feedback">This field cannot be empty</span>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Header email</label>
+                    <input class="form-control" type="text" name="name" id="js-input-header" />
+                    <span class="invalid-feedback">This field cannot be empty</span>
+                    @*<div id="editor"></div>*@
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Product</label>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#md-product" id="modal-product">Choose Product</button>
+                    <span class="invalid-feedback">This field cannot be empty</span>
+                </div>
+                <div class="form-group">
+                    <div id="js-product-area"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Email</label>
+                    <div id="js-email-input">
+                        <label class="radio-inline mr-2"><input type="radio" name="emailradio" value="1" checked>Send All</label>
+                        <label class="radio-inline mr-2" data-toggle="modal" data-target="#md-email" id="modal-email">
+                            <input type="radio" name="emailradio" value="2">Choose email
+                        </label>
+                    </div>
+                    <span class="invalid-feedback">This field cannot be empty</span>
+                </div>
+                <div class="form-group">
+                    <div id="js-email-area" class=""></div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-outline-secondary" id="js-send">Send</button>
+                    <button class="btn btn-outline-secondary ml-3" id="js-reset">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="md-product">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose product</h5>
+                <button type="button" class="close js-product-save" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="ip-product-search" class="col-form-label">Search by name</label>
+                        <input type="text" class="form-control" id="ip-product-search">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="ip-product-category" class="col-form-label">Category</label>
+                        <select class="form-control" id="ip-product-category">
+                            <option value="">- Select -</option>
+                            @foreach (var item in ViewBag.CategoryId)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group col-12">
+                        <button class="btn btn-outline-secondary" id="js-product-search">Search</button>
+                    </div>
+                </div>
+                <div id="js-product-result" class="row"></div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination" id="js-product-paginate"></ul>
+                </nav>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary js-product-save" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary js-product-save" data-dismiss="modal" id="js-product-save">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="md-email">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose email</h5>
+                <button type="button" class="close js-email-save" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-12">
+                        <label for="recipient-name" class="col-form-label">Search</label>
+                        <input type="text" class="form-control" id="ip-email-search">
+                    </div>
+                    <div class="form-group col-12">
+                        <button class="btn btn-outline-secondary" id="js-email-search">Search</button>
+                    </div>
+                </div>
+                <div class="row" id="js-email-result"></div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination" id="js-email-paginate"></ul>
+                </nav>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary js-email-save" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary js-email-save" data-dismiss="modal" id="js-email-save">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="https://cdn.ckeditor.com/ckeditor5/19.1.1/classic/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            //var headerEditor
+
+            //ClassicEditor
+            //    .create(document.querySelector('#editor'))
+            //    .then(editor => {
+            //        console.log(editor);
+            //        headerEditor = editor
+            //    })
+            //    .catch(error => {
+            //        console.error(error);
+            //    });
+
+            // todo: header = ckeditor, delete label, edit label css
+            var PAGE_SIZE = 5
+            var current_product_page = 1
+            var current_email_page = 1
+            var BASE_URI = '@System.Configuration.ConfigurationManager.AppSettings["BaseUri"].ToString()'
+
+            var mapProduct = new Map()
+            var selectedEmail = []
+
+            $('#js-send').click(function () {
+                if (validate()) {
+                    var data, url
+                    //var header = headerEditor.getData()
+                    var header = $('#js-input-header').val()
+                    var subject = $('#js-input-subject').val()
+
+                    var sendOption = $('input[name=emailradio]:checked').val()
+                    var selectedProduct = []
+                    mapProduct.forEach(function (value, key) {
+                        selectedProduct.push(key)
+                    });
+
+                    if (sendOption == 1) {
+                        url = '/api/APromotion/CreateSendAll'
+                        data = { ProductIDs: selectedProduct, Subject: subject, Header: header }
+                    } else {
+                        url = '/api/APromotion/Create'
+                        data = { ProductIDs: selectedProduct, Emails: selectedEmail, Subject: subject, Header: header }
+                    }
+
+                    $.ajax({
+                        url: BASE_URI + url,
+                        type: 'post',
+                        data: data,
+                        success: function (result) {
+                            if (result.success) {
+                                $('#modalSuccess').modal()
+                            } else {
+                                $("#modalError").modal()
+                            }
+                        },
+                        error: function (err) {
+                            console.error(err)
+                            $("#modalError").modal()
+                        }
+                    })
+                }
+            })
+
+            $('#js-reset').click(function () {
+                // todo reset input modal
+                mapProduct = new Map()
+                selectedEmail = []
+                genProductLabel()
+                genEmailLabel()
+            })
+
+            $('#modal-product').click(function () {
+                getProduct()
+            })
+
+            $('#modal-email').click(function () {
+                getEmail("", 1, PAGE_SIZE)
+            })
+
+            // process product
+
+            $('#js-product-search').click(function () {
+                getProduct()
+            })
+
+            function getProduct() {
+                var keyword = $('#ip-product-search').val();
+                var categoryId = $('#ip-product-category').val();
+                var page = current_product_page
+                $.ajax({
+                    url: BASE_URI + "/api/APromotion/GetProduct",
+                    type: "post",
+                    data: { CategoryId: categoryId, KeyWord: keyword, Page: page, Size: PAGE_SIZE},
+                    success: function (result) {
+                        if (result.success) {
+                            console.log(result)
+                            genProductList(result.data, result.paginate)
+                        } else {
+                            $("#modalError").modal()
+                        }
+                    },
+                    error: function (err) {
+                        console.error(err)
+                        $("#modalError").modal()
+                    }
+                })
+            }
+
+            function genProductList(products, paginate) {
+                var html = '',
+                    currentPage = paginate.CurrentPage,
+                    pageSize = paginate.PageSize,
+                    totalPage = paginate.TotalPage
+
+                current_product_page = paginate.CurrentPage
+
+                for (var i = 0; i < products.length; i++) {
+                    var product = products[i]
+                    var checked = mapProduct.has(product.Id) ? "checked" : ""
+                    html += '<div class="col-12">'
+                    html += '<label onmousedown="toggleProduct(' + product.Id + ',\'' + product.Name + '\')">'
+                    html += '<input type="checkbox" value="' + product.Id + '" name="' + product.Name + '"' + checked + '/>' + product.Name
+                    html += '</label>'
+                    html += '</div>'
+                }
+                $('#js-product-result').html(html)
+
+                html = ''
+                if (current_product_page > 1 && totalPage > 1) {
+                    html += '<li class="page-item" onmousedown="gotoPPage(-1, ' + totalPage + ')">'
+                    html += '<a class="page-link" href = "#">Previous</a>'
+                    html += '</li>'
+                }
+                for (var i = 1; i <= totalPage; i++) {
+                    var active = ""
+                    if (i == current_product_page) {
+                        active = "active"
+                    }
+                    html += '<li class="page-item js-page-product-item ' + active + '" onmousedown="gotoPPage(' + i + ', ' + totalPage + ')">'
+                    html += '<a class="page-link" href="#">' + i + '</a>'
+                    html += '</li>'
+                }
+                if (current_product_page < totalPage) {
+                    html += '<li class="page-item" onmousedown="gotoPPage(-2, ' + totalPage + ')">'
+                    html += '<a class="page-link" href = "#">Next</a>'
+                    html += '</li> '
+                }
+                $('#js-product-paginate').html(html)
+            }
+
+            document.toggleProduct = function (id, name) {
+                if (mapProduct.has(id)) {
+                    mapProduct.delete(id)
+                } else {
+                    mapProduct.set(id, name)
+                }
+                validateProduct()
+            }
+
+            document.gotoPPage = function (page, total) {
+                if (page == -1 && current_product_page > 1) {
+                    current_product_page -= 1
+                } else if (page == -2 && current_product_page < total) {
+                    current_product_page += 1
+                } else if (current_product_page > 0 && current_product_page <= total) {
+                    current_product_page = page
+                }
+                getProduct()
+            }
+
+            $('.js-product-save').click(function () {
+                genProductLabel()
+            })
+
+            function genProductLabel() {
+                var html = ''
+                mapProduct.forEach(function (value, key) {
+                    html += '<span class="pl-2 pr-2 pt-1 pb-1 ml-1 mb-1" style="border: 1px solid #6b6b47; border-radius: 6px; display: inline-block; background-color: #b2bed4">'
+                    html += value
+                    html += '</span>'
+                });
+                $('#js-product-area').html(html)
+            }
+
+            // /process product
+
+            $('#js-email-search').click(function () {
+                getEmail()
+            })
+
+            function getEmail() {
+                var keyword = $('#ip-email-search').val()
+                $.ajax({
+                    url: BASE_URI + "/api/APromotion/GetEmail",
+                    type: "post",
+                    data: {
+                        Keyword: keyword,
+                        Page: current_email_page,
+                        Size: PAGE_SIZE
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            genEmailList(result.data, result.paginate)
+                        } else {
+                            $("#modalError").modal()
+                        }
+                    },
+                    error: function (err) {
+                        console.error(err)
+                        $("#modalError").modal()
+                    }
+                })
+            }
+
+            function genEmailList(emails, paginate) {
+                var html = '',
+                    currentPage = paginate.CurrentPage,
+                    pageSize = paginate.PageSize,
+                    totalPage = paginate.TotalPage
+
+                current_email_page = paginate.CurrentPage
+
+                for (var i = 0; i < emails.length; i++) {
+                    var email = emails[i]
+                    var checked = selectedEmail.indexOf(email) > -1 ? "checked" : ""
+                    html += '<div class="col-12">'
+                    html += '<label onmousedown="toggleEmail(\'' + email + '\')">'
+                    html += '<input type="checkbox" value="' + email + '" name="' + email + '"' + checked + '/>' + email
+                    html += '</label>'
+                    html += '</div>'
+                }
+                $('#js-email-result').html(html)
+
+                html = ''
+                if (current_email_page > 1 && totalPage > 1) {
+                    html += '<li class="page-item" onmousedown="gotoEPage(-1, ' + totalPage + ')">'
+                    html += '<a class="page-link" href = "#">Previous</a>'
+                    html += '</li>'
+                }
+                for (var i = 1; i <= totalPage; i++) {
+                    var active = ""
+                    if (i == current_email_page) {
+                        active = "active"
+                    }
+                    html += '<li class="page-item js-page-product-item ' + active + '" onmousedown="gotoEPage(' + i + ', ' + totalPage + ')">'
+                    html += '<a class="page-link" href="#">' + i + '</a>'
+                    html += '</li>'
+                }
+                if (current_email_page < totalPage) {
+                    html += '<li class="page-item" onmousedown="gotoEPage(-2, ' + totalPage + ')">'
+                    html += '<a class="page-link" href = "#">Next</a>'
+                    html += '</li> '
+                }
+                $('#js-email-paginate').html(html)
+            }
+
+            document.toggleEmail = function (email) {
+                var indexTemp = selectedEmail.indexOf(email)
+                if (indexTemp > -1) {
+                    selectedEmail = selectedEmail.splice(indexTemp, 1);
+                } else {
+                    selectedEmail.push(email)
+                }
+                validateSendMode()
+            }
+
+            document.gotoEPage = function (page, total) {
+                if (page == -1 && current_email_page > 1) {
+                    current_email_page -= 1
+                } else if (page == -2 && current_email_page < total) {
+                    current_email_page += 1
+                } else if (current_email_page > 0 && current_email_page <= total) {
+                    current_email_page = page
+                }
+                getEmail()
+            }
+
+            $('.js-email-save').click(function () {
+                genEmailLabel()
+            })
+
+            function genEmailLabel() {
+                var html = ''
+                for (var i = 0; i < selectedEmail.length; i++) {
+                    html += '<span class="pl-2 pr-2 pt-1 pb-1 ml-1 mb-1" style="border: 1px solid #6b6b47; border-radius: 6px; display: inline-block; background-color: #b2bed4">'
+                    html += selectedEmail[i]
+                    html += '</span>'
+                }
+                $('#js-email-area').html(html)
+            }
+
+            // validate
+
+            $('#js-input-subject').change(function () {
+                validateSubject()
+            });
+
+            $('#js-input-header').change(function () {
+                validateHeader()
+            });
+
+            function validate() {
+                return validateSubject() && validateHeader() && validateProduct() && validateSendMode()
+            }
+
+            function validateSubject() {
+                var errClass = 'is-invalid'
+                if ($('#js-input-subject').val() == "") {
+                    $('#js-input-subject').addClass(errClass)
+                    return false
+                } else {
+                    $('#js-input-subject').removeClass(errClass)
+                    return true
+                }
+            }
+
+            function validateHeader() {
+                var errClass = 'is-invalid'
+                if ($('#js-input-header').val() == "") {
+                    $('#js-input-header').addClass(errClass)
+                    return false
+                } else {
+                    $('#js-input-header').removeClass(errClass)
+                    return true
+                }
+            }
+
+            function validateProduct() {
+                var errClass = 'is-invalid'
+                if (mapProduct.size == 0) {
+                    $('#modal-product').addClass(errClass)
+                    return false
+                } else {
+                    $('#modal-product').removeClass(errClass)
+                    return true
+                }
+            }
+
+            function validateSendMode() {
+                var errClass = 'is-invalid'
+                var sendOption = $('input[name=emailradio]:checked').val()
+                if (sendOption == 1) {
+                    $('#js-email-input').removeClass(errClass)
+                } else {
+                    if (selectedEmail.length == 0) {
+                        $('#js-email-input').addClass(errClass)
+                        return false
+                    } else {
+                        $('#js-email-input').removeClass(errClass)
+                    }
+                }
+                return true
+            }
+        })
+    </script>
+}
+
+

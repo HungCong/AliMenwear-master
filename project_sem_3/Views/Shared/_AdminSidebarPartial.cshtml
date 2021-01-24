@@ -1,0 +1,181 @@
+﻿<ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index", "Admin")">
+        <div class="sidebar-brand-icon">
+            <img src="@Url.Content("~/Content/Images/logo/logo2.png")">
+        </div>
+        <div class="sidebar-brand-text mx-3">ChildrenShop</div>
+    </a>
+    <hr class="sidebar-divider my-0">
+    <li class="nav-item active">
+        <a class="nav-link" href="@Url.Action("Index", "Admin")">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        Features
+    </div>
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("Role", "Admin")">
+            <i class="fas fa-fw  fa-lock" aria-hidden="true"></i>
+            <span>Role</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+            <i class="fa fa-users" aria-hidden="true"></i>
+            <span>User</span>
+        </a>
+        <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">User</h6>
+                <a class="collapse-item" href="@Url.Action("UserCreate", "Admin")">Create</a>
+                <a class="collapse-item" href="@Url.Action("User", "Admin")">List</a>
+            </div>
+        </div>
+    </li>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        Product
+    </div>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategory" aria-expanded="true"
+           aria-controls="collapseCategory">
+            <i class="fas fa-fw fa-th-list"></i>
+            <span>Category</span>
+        </a>
+        <div id="collapseCategory" class="collapse" aria-labelledby="headingCategory" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Category</h6>
+                <a class="collapse-item" href="@Url.Action("CategoryCreate", "Admin")">Create</a>
+                <a class="collapse-item" href="@Url.Action("Category", "Admin")">List</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct" aria-expanded="true"
+           aria-controls="collapseProduct">
+            <i class="fas fa-fw fa-box-open"></i>
+            <span>Product</span>
+        </a>
+        <div id="collapseProduct" class="collapse" aria-labelledby="headingProduct" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Product</h6>
+                <a class="collapse-item" href="@Url.Action("ProductCreate", "Admin")">Create</a>
+                <a class="collapse-item" href="@Url.Action("Product", "Admin")">List</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDiscount" aria-expanded="true"
+           aria-controls="collapseDiscount">
+            <i class="fas fa-fw fa-tags"></i>
+            <span>Discount</span>
+        </a>
+        <div id="collapseDiscount" class="collapse" aria-labelledby="headingDiscount" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Discount</h6>
+                <a class="collapse-item" href="@Url.Action("DiscountCreate", "Admin")">Create</a>
+                <a class="collapse-item" href="@Url.Action("Discount", "Admin")">List</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("Order", "Admin")">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            <span>Order</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePromotion" aria-expanded="true"
+           aria-controls="collapsePromotion">
+            <i class="fas fa-fw fa-gifts"></i>
+            <span>Promotion</span>
+        </a>
+        <div id="collapsePromotion" class="collapse" aria-labelledby="headingPromotion" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Promotion</h6>
+                <a class="collapse-item" href="@Url.Action("Promotion", "Admin")">Send All</a>
+                <a class="collapse-item" href="@Url.Action("PromotionCreate", "Admin")">Create</a>
+            </div>
+        </div>
+    </li>
+    @*<hr class="sidebar-divider">
+        <div class="sidebar-heading">
+            Template
+        </div>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
+               aria-expanded="true" aria-controls="collapseBootstrap">
+                <i class="far fa-fw fa-window-maximize"></i>
+                <span>Bootstrap UI</span>
+            </a>
+            <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Bootstrap UI</h6>
+                    <a class="collapse-item" href="@Url.Action("Alerts", "Admin")">Alerts</a>
+                    <a class="collapse-item" href="@Url.Action("Buttons", "Admin")">Buttons</a>
+                    <a class="collapse-item" href="@Url.Action("Dropdowns", "Admin")">Dropdowns</a>
+                    <a class="collapse-item" href="@Url.Action("Modals", "Admin")">Modals</a>
+                    <a class="collapse-item" href="@Url.Action("Popovers", "Admin")">Popovers</a>
+                    <a class="collapse-item" href="@Url.Action("ProgressBar", "Admin")">Progress Bars</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Forms", "Admin")">
+                <i class="fab fa-fw fa-wpforms"></i>
+                <span>Forms</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
+               aria-controls="collapseTable">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Tables</span>
+            </a>
+            <div id="collapseTable" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Tables</h6>
+                    <a class="collapse-item" href="@Url.Action("SimpleTables", "Admin")">Simple Tables</a>
+                    <a class="collapse-item" href="@Url.Action("Datatables", "Admin")">DataTables</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("UiColors", "Admin")">
+                <i class="fas fa-fw fa-palette"></i>
+                <span>UI Colors</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">
+            Examples
+        </div>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true"
+               aria-controls="collapsePage">
+                <i class="fas fa-fw fa-columns"></i>
+                <span>Pages</span>
+            </a>
+            <div id="collapsePage" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Example Pages</h6>
+                    <a class="collapse-item" href="@Url.Action("Login", "Admin")">Login</a>
+                    <a class="collapse-item" href="@Url.Action("Register", "Admin")">Register</a>
+                    <a class="collapse-item" href="@Url.Action("Error404", "Admin")">404 Page</a>
+                    <a class="collapse-item" href="@Url.Action("Blank", "Admin")">Blank Page</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Charts", "Admin")">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Charts</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider">
+        <div class="version" id="version-ruangadmin"></div>*@
+</ul>

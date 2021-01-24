@@ -1,0 +1,24 @@
+﻿paypal test account: 
+
+	business:
+		First Name:vJohn
+		Last Name: Doe
+		acc: sb-cykl81776174@business.example.com
+		pass: |O{G^8u[
+		pass: K99X9JC284D8DPYA
+		phone: 4082687486
+		country: US
+		AccountID: LG8W7G644EYXQ
+
+	customer:
+		First Name: John
+		Last Name: Doe
+		acc: sb-43nxel1643086@personal.example.com
+		pass: (-6gl%Vk
+		Phone Number: 4086655914
+		Account Type: Personal
+		Account ID: CQBHUFYKVFGGE
+
+Sanbox Demo: 
+	acc: sb-4zzpq3257876@personal.example.com
+	pass: s/NXO4Ej

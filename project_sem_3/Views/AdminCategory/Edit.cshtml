@@ -1,0 +1,87 @@
+﻿@model project_sem_3.Models.Category
+
+@{
+    ViewBag.Title = "Edit Category";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Edit Category</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="./">Dashboard</a></li>
+        <li class="breadcrumb-item "><a href="../Category">Category</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+    </ol>
+</div>
+
+<div class="row  col-lg-6">
+    <div class="col-lg-12">
+        <!-- Horizontal Form -->
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="card-body">
+
+                @using (Html.BeginForm("CategoryEdit", "Admin", FormMethod.Post, new { @class = "product-form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                <div class="form-horizontal row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="form-group  col-lg-12">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group  col-lg-12">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EnumDropDownListFor(model => model.Status, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" hidden>
+                        @Html.LabelFor(model => model.CreatedAt, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CreatedAt, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CreatedAt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" hidden>
+                        @Html.LabelFor(model => model.UpdatedAt, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.UpdatedAt, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UpdatedAt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group" hidden>
+                        @Html.LabelFor(model => model.DeletedAt, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DeletedAt, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DeletedAt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group  col-lg-12 mt-3">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <a class="btn btn-primary" href="../Category">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!--Row-->
+

@@ -1,0 +1,169 @@
+﻿@model project_sem_3.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Order Details</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="./">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="../Order">Order</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Details</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <!-- Horizontal Form -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </dt>
+
+                        <dt>
+                            @Html.DisplayFor(model => model.Id)
+                        </dt>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CustomerName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CustomerName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CustomerPhone)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CustomerPhone)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CustomerEmail)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CustomerEmail)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CustomerAddress)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CustomerAddress)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PaymentMethod)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.PaymentMethod)
+                        </dd>
+                        <dt>
+                            Discount Code
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Discount.Code)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.TotalPrice)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.TotalPrice)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Status)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CreatedAt)
+                        </dd>
+                    </dl>
+                </div>
+
+                <p>
+                    @Html.ActionLink("Edit", "OrderEdit", new { id = Model.Id }) |
+                    @Html.ActionLink("Back to List", "Order")
+                </p>
+            </div>
+
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+
+            <div class="table-responsive p-3">
+                <table class="table align-items-center table-flush table-hover " id="">
+
+                    <br />
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                ProductDetailId
+                            </th>
+                            <th>
+                                UnitPrice
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                Discount
+                            </th>
+                            @*<th></th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductDetailId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Discount)
+                                </td>
+                                @*<td class="action-btn">
+                                    <a href="/admin/productdetailedit/@(item.id)" data-toggle="tooltip" title="edit"><i class="fas fa-pencil-alt"></i></a>
+                                    @if (item.status != project_sem_3.models.eproductstatus.deleted)
+                                    {
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#modaldelete" id="#modaldelete" class="action_status" data=@item.id title="delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    }
+                                </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Paypal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="hero-wrap hero-bread" style="background-image: url('/Content/Images/bg_6.jpg');">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="@Url.Action("Index", "Home")">Home</a></span> <span>Checkout</span></p>
+                <h1 class="mb-0 bread">Checkout</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-8 ftco-animate">
+                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="sb-dgx3j1725715@business.example.com">
+                    <input type="hidden" name="item_name" value="Memorex 256MB Memory Stick">
+                    <input type="hidden" name="item_number" value="MEM32507725">
+                    <input type="hidden" name="amount" value="30" id="js-amount">
+                    <input type="hidden" name="tax" value="0">
+                    <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="currency_code" value="USD">
+
+                    <!-- Enable override of buyers's address stored with PayPal . -->
+                    <input type="hidden" name="address_override" value="1">
+                    <!-- Set variables that override the address stored with PayPal. -->
+
+                    <div>
+                        <input type="text" name="first_name" value="John">
+                    </div>
+                    <div>
+                        <input type="text" name="last_name" value="Doe">
+                    </div>
+                    <div>
+                        <input type="text" name="address1" value="345 Lark Ave">
+                    </div>
+                    <div>
+                        <input type="text" name="city" value="San Jose">
+                    </div>
+                    <div>
+                        <input type="text" name="state" value="CA">
+                    </div>
+                    <div>
+                        <input type="text" name="zip" value="95121">
+                    </div>
+                    <div>
+                        <input type="text" name="country" value="US">
+                    </div>
+                    <div>
+                        <input type="image" name="submit"
+                               src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
+                               alt="PayPal - The safer, easier way to pay online" id="js-paypal">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts
+{
+    <script>
+        //document.getElementById('js-amount')
+
+        //var btnPaypal = document.getElementById('js-paypal')
+        //btnPaypal.click()
+    </script>
+}
+

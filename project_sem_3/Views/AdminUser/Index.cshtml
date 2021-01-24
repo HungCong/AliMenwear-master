@@ -1,0 +1,108 @@
+﻿@model IEnumerable<project_sem_3.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">User List</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="./">Dashboard</a></li>
+        <li class="breadcrumb-item">User</li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</div>
+
+<!-- Row -->
+<div class="row">
+    <!-- DataTable with Hover -->
+    <div class="col-lg-12">
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="table-responsive p-3">
+                <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th></th>
+                            <th>
+                                Phone
+                            </th>
+                            <th></th>
+                            <th>
+                                Two Factor
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmailConfirmed)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
+                            </td>
+                            <td class="action-btn">
+                                <a href="/Admin/UserDetails/@(item.Id)" data-toggle="tooltip" title="Details"><i class="fas fa-eye"></i></a>
+                                <a href="/Admin/UserEdit/@(item.Id)" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                <a href="javascript:void(0);" class="action_delete" data=@item.Id data-toggle="tooltip" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/admin-table")
+    <!-- Page level custom scripts -->
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#dataTable').DataTable(); // ID From dataTable
+            $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+        });
+
+        $('.action_delete').click(function () {
+            if (confirm("Do you really want to delete?")) {
+                let id = $(this).attr("data");
+                let origin = window.location.origin;
+                location.href = "/Admin/UserDelete/" + id
+            }
+        })
+    </script>
+}

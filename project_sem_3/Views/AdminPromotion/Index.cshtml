@@ -1,0 +1,241 @@
+﻿@model PagedList.IPagedList<project_sem_3.Models.Product>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Promotion";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int index = 1;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Send All</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="./">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Promotion</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <!-- Horizontal Form -->
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">a
+            </div>
+            <div class="table-responsive p-3">
+                <table class="table align-items-center table-flush table-hover " id="">
+                    @using (Html.BeginForm("Product", "Admin", FormMethod.Get))
+                    {
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="row py-2">
+                                    <div class="col-lg-3">
+                                        <label>Find by name: </label>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @style = "width:70%" })
+                                    </div>
+                                </div>
+
+                                @Html.Hidden("startDate", string.Empty)
+                                @Html.Hidden("endDate", string.Empty)
+
+                                <div class="row pb-2">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-9">
+                                        <input type="submit" value="Search" class="btn btn-primary" />
+                                        <input type="reset" value="Reset" class="btn btn-primary" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-5">
+                                <label>
+                                    Find by time:
+                                </label>
+                                <div class="form-control" id="daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width:100%">
+                                    <i class="fa fa-calendar"></i>&nbsp;
+                                    <span></span> <i class="fa fa-caret-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                No
+                            </th>
+                            <th>
+                                Thumbnail
+                            </th>
+                            <th>
+                                @Html.ActionLink("Name", "Product", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter, status = ViewBag.statusParm, startDate = ViewBag.StartDate, endDate = ViewBag.EndDate })
+                            </th>
+                            <th>
+                                Category
+                            </th>
+                            <th>
+                                @Html.ActionLink("Price", "Product", new { sortOrder = ViewBag.PriceSortParm, currentFilter = ViewBag.CurrentFilter, status = ViewBag.statusParm, startDate = ViewBag.StartDate, endDate = ViewBag.EndDate })
+                            </th>
+                            <th>
+                                Discount
+                            </th>
+                            <th>
+                                @Html.ActionLink("Created At", "Product", new { sortOrder = ViewBag.CreatedAtSortParm, currentFilter = ViewBag.CurrentFilter, status = ViewBag.statusParm, startDate = ViewBag.StartDate, endDate = ViewBag.EndDate })
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <span>@(index++)</span>
+
+                                </td>
+                                <td>
+                                    <img src="@item.GetDefaultThumbnail()" alt="Alternate Text" class="img-thumbnail" width="100px" height="100px" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Category.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Discount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                                </td>
+                                <td class="action-btn">
+                                    <a href="javascript:void(0);" data-toggle="tooltip" title="Send All" data=@item.Id class="js-action-send-all">
+                                        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>Showing page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount page</div>
+                    <div>
+                        @Html.PagedListPager(Model, page => Url.Action("Promotion",
+                            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/admin-table")
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script>
+        var idTemp = 0
+        var BASE_URI = '@System.Configuration.ConfigurationManager.AppSettings["BaseUri"].ToString()'
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#dataTable').DataTable(); // ID From dataTable
+            $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+        });
+
+        $('.js-action-send-all').click(function () {
+            idTemp = $(this).attr('data');
+            $.ajax({
+                url: BASE_URI + '/api/APromotion/SendAll',
+                type: 'post',
+                data: {
+                    ProductID: idTemp
+                },
+                success: function (result) {
+                    if (result.success) {
+                        $('#modalSuccess').modal()
+                    } else {
+                        $("#modalError").modal()
+                    }
+                },
+                error: function (err) {
+                    $("#modalError").modal()
+                }
+            })
+        })
+    </script>
+
+    <!-- Date Range Picker -->
+    <script>
+        //Get url function
+        function GetURLParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1));
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        var initStart = GetURLParameter("startDate");
+        var initEnd = GetURLParameter("endDate");
+        if (initStart != null && moment(initStart, 'MM/DD/YYYY', true).isValid()) {
+            $("#startDate").val(initStart);
+            start = moment(initStart, 'MM/DD/YYYY', true);
+        }
+        if (initEnd != null && moment(initEnd, 'MM/DD/YYYY', true).isValid()) {
+            $("#endDate").val(initEnd);
+            end = moment(initEnd, 'MM/DD/YYYY', true);
+        }
+
+        function cb(start, end) {
+            $('#daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+
+        $('#daterange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            locale: {
+                format: 'MM/DD/YYYY'
+            },
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+        $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+            /*$(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));*/
+            var startDate = picker.startDate.format('MM/DD/YYYY');
+            var endDate = picker.endDate.format('MM/DD/YYYY');
+            start = startDate;
+            end = endDate;
+            location.href = '../Admin/Promotion?startDate=' + startDate + '&endDate=' + endDate;
+        });
+
+        $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+
+        cb(start, end);
+
+    </script>
+}
+
+

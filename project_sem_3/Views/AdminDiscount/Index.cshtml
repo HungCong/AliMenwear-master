@@ -1,0 +1,137 @@
+﻿@model IEnumerable<project_sem_3.Models.Discount>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Discount List</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="./">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="./Discount">Discount</a></li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</div>
+
+<!-- Row -->
+<div class="row">
+    <!-- DataTable with Hover -->
+    <div class="col-lg-12">
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="table-responsive p-3">
+                <table class="table align-items-center table-flush table-hover" id="dataTableHover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Code)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Value)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ExprirationDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinTotal)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UseTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                           
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Code)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Value)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ExprirationDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinTotal)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UseTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                
+                                <td class="action-btn">
+                                    <a href="/Admin/DiscountDetails/@(item.Id)" data-toggle="tooltip" title="Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="/Admin/DiscountEdit/@(item.Id)" data-toggle="tooltip" title="Edit">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    @if (item.Status == project_sem_3.Models.EDiscountStatus.Active)
+                                    {
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#modalDelete" id="#modalDelete" class="action_status" data=@item.Id title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#modalRestore" id="#modalRestore" class="action_status" data=@item.Id title="Restore">
+                                            <i class="fas fa-undo"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/admin-table")
+    <!-- Page level custom scripts -->
+    <script>
+        var idTemp = 0
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#dataTable').DataTable(); // ID From dataTable
+            $('#dataTableHover').DataTable(); // ID From dataTable with Hover
+        });
+
+        $('.action_status').click(function () {
+            idTemp = $(this).attr("data");
+        })
+
+        $('.action_model_close').click(function () {
+            idTemp = 0
+        })
+
+        $('.action_model_delete').click(function () {
+            if (idTemp > 0) {
+                //let origin = window.location.origin;
+                location.href = "/Admin/DiscountDelete/" + idTemp
+            }
+        })
+
+        $('.action_model_restore').click(function () {
+            if (idTemp > 0) {
+                //let origin = window.location.origin;
+                location.href = "/Admin/DiscountRestore/" + idTemp
+            }
+        })
+    </script>
+}

@@ -1,0 +1,78 @@
+﻿
+
+@using project_sem_3.Models;
+@{
+    ViewBag.Title = "Đơn hàng của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var myorder = ViewBag.Ordering as List<Order>;
+    int dem = 1;
+}
+
+<div class="hero-wrap hero-bread" style="background-image: url('/Content/Images/bg_6.jpg');">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="@Url.Action("Index", "Home")">Home</a></span> <span>Đơn hàng của tôi</span></p>
+                <h1 class="mb-0 bread">Đơn hàng của tôi</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div id="table-list-cart-ftco" class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>#</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Phương thức thanh toán</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="js-cart-items">
+                            @foreach (var item in myorder)
+                            {
+                                <tr class="text-center">
+                                    <td>@dem</td>
+                                    <td>@item.CreatedAt.ToString("hh:mm dd-MM-yyyy")</td>
+                                    <td>@item.TotalPrice</td>
+                                    @if (item.PaymentMethod == project_sem_3.Models.EPaymentMethod.Cash)
+                                    {
+                                        <td>Nhận hàng thanh toán</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Thanh toán PayPal</td>
+                                    }
+
+                                    @if (item.Status == project_sem_3.Models.EOrderStatus.Delivered)
+                                    {
+                                        <td><span class="label label-success">Đã giao</span></td>
+                                    }
+                                    else if (item.Status == project_sem_3.Models.EOrderStatus.Cancelled)
+                                    {
+                                        <td><span class="label label-danger">Hủy bỏ</span></td>
+                                    }
+                                    <td>
+                                        <a href="/chi-tiet-don-hang/@item.Id" class="btn btn-outline-info">Xem chi tiết</a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

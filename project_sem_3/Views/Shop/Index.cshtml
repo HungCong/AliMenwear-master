@@ -1,0 +1,101 @@
+﻿@model PagedList.IPagedList<project_sem_3.Models.Product>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Shop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="hero-wrap hero-bread" style="background-image: url('/Content/Images/bg_6.jpg');">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="@Url.Action("Index", "Home")">Home</a></span> <span>Products</span></p>
+                <h1 class="mb-0 bread">Collection Products</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-8 col-lg-10 order-md-last">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">
+                            <div class="product">
+                                <a href="../Shop/Product/@(item.Id)" class="img-prod">
+                                    <img class="img-fluid" src="@Html.DisplayFor(modelItem => item.Thumbnails)" alt="Colorlib Template">
+                                    @*<span class="status">30%</span>*@
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 px-3">
+                                    <h3><a href="../Shop/Product/@(item.Id)">@Html.DisplayFor(modelItem => item.Name)</a></h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span class="mr-2 @(item.Discount != null ? "price-dc":"")">$@Html.DisplayFor(modelItem => item.Price)</span><span style="display: @(item.Discount != null ? "block-inline":"none")" class="price-sale">$@Html.DisplayFor(modelItem => item.Discount)</span></p>
+                                        </div>
+                                    </div>
+                                    <p class="bottom-area d-flex px-3">
+                                        @Html.ActionLink("View product", "Product", "Shop", new { id = item.Id }, new { @class = "add-to-cart text-center py-2 mr-1" })
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row mt-5">
+                    <div class="col text-center">
+                        <div class="block-27">
+                            <ul>
+                                <div class="float-right">
+                                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                                        new { page, category = ViewBag.CurrentCategoryId, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-2 sidebar">
+                <div class="sidebar-box-2">
+                    <h2 class="heading mb-4"><a href="#">CATEGORIES</a></h2>
+                    <ul>
+                        @if (ViewBag.CurrentCategoryId != null)
+                        {
+                            <li class="pl-1 pr-1"><a href="../Shop">All Products</a></li>
+                        }
+                        else
+                        {
+                            <li class="pl-1 pr-1" style="background-color: #ffa45c">
+                                <a href="../Shop">All</a>
+                            </li>
+                        }
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            if (ViewBag.CurrentCategoryId == category.Id)
+                            {
+                                <li class="pl-1 pr-1" style="background-color: #ffa45c">
+                                    <a href="../Shop?Category=@category.Id">@category.Name</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="pl-1 pr-1">
+                                    <a href="../Shop?Category=@category.Id">@category.Name</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+

@@ -1,0 +1,107 @@
+﻿@model project_sem_3.Models.Discount
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Discount Detail</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Html.ActionLink("Discount", "Discount")</li>
+        <li class="breadcrumb-item active" aria-current="page">Detail</li>
+    </ol>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <!-- Horizontal Form -->
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"></h6>
+            </div>
+            <div class="card-body">
+                <div>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Code)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Code)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Value)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Value)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ExprirationDate)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ExprirationDate)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.MinTotal)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.MinTotal)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UseTime)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UseTime)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Status)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CreatedAt)
+                        </dd>
+
+                        @*<dt>
+                            @Html.DisplayNameFor(model => model.UpdatedAt)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UpdatedAt)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.DeletedAt)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.DeletedAt)
+                        </dd>*@
+
+                    </dl>
+                </div>
+                <p>
+                    @Html.ActionLink("Edit", "DiscountEdit", new { id = Model.Id }) |
+                    @Html.ActionLink("Back to List", "Discount")
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
